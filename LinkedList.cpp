@@ -1,23 +1,37 @@
-ï»¿#define _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 
-//head = [-2, 5, -1, -10, 1, -1, 10, 2, 2, 2, 5, 5] //ç¤ºä¾‹é“¾è¡¨										  
+//head = [-2, 5, -1, -10, 1, -1, 10, 2, 2, 2, 5, 5] //Ê¾ÀıÁ´±í										  
 //Definition for singly-linked list.
 
 struct ListNode 
 {
-	int val;
-	ListNode *next;
+	int val;					
+
+	ListNode *next;				
 	ListNode() : val(0), next(nullptr) {}
 	ListNode(int x) : val(x), next(nullptr) {}
 	ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
-												  
+		
+//Á´±íÀÛ³Ëº¯Êı£¬ÊäÈëÁ´±íµ±Ç°½Úµã£¬µ±Ç°½ÚµãÓëÏÂÒ»¸ö½ÚµãÏà³Ë£¬·µ»Ø½á¹û
+int multipl(ListNode* listnode)
+{
+	int result;
+
+	result = listnode->val * listnode->next->val;
+
+	return result;
+}
+
+
 class Solution
 {
 public:
 	ListNode *head = NULL;
+	ListNode *end = NULL;
 	ListNode* InitialList(bool IfHead, bool IFCycle);
 	void removeSublists(bool IfHead, bool IFCycle);
 	void PrintList(bool IfHead, bool IFCycle);
@@ -41,7 +55,7 @@ void Solution::PrintList(bool IfHead, bool IFCycle)
 
 		printf("%d ", temp->val);
 		temp = temp->next;
-		while (temp != head) {								//æ‰“å° 
+		while (temp != head) {								//´òÓ¡ 
 			printf("%d ", temp->val);
 			temp = temp->next;
 		}
@@ -50,7 +64,7 @@ void Solution::PrintList(bool IfHead, bool IFCycle)
 	else
 	{
 
-		while (temp != NULL) {								//æ‰“å° 
+		while (temp != NULL) {								//´òÓ¡ 
 			printf("%d ", temp->val);
 			temp = temp->next;
 		}
@@ -60,23 +74,23 @@ void Solution::PrintList(bool IfHead, bool IFCycle)
 
 ListNode* Solution::InitialList(bool IfHead,bool IFCycle)
 {
-	//ä¸»åŠ¨æ§åˆ¶é“¾è¡¨é•¿åº¦ï¼Œéšæœºåˆå§‹åŒ–å…·ä½“å…ƒç´ 
-	//å„ç§æƒ…å†µï¼Œæœ‰æ— å¤´èŠ‚ç‚¹ã€æ˜¯å¦å¾ªç¯ï¼ˆæš‚æ—¶è€ƒè™‘è¿™å››ç§è¯·æ¬¾,æ˜¯å¦åŒå‘æ— å½±å“ï¼‰
-	///å…ˆè€ƒè™‘æ— å¤´èŠ‚ç‚¹ã€æ— å¾ªç¯çš„æƒ…å†µ
-	head = (ListNode*)malloc(sizeof(ListNode));			//åŠ¨æ€å†…å­˜åˆ†é… 
-	ListNode *temp = head;								//åˆ›å»ºä¸€ä¸ªä¸´æ—¶æŒ‡é’ˆï¼Œå¹¶ä¸”æŒ‡å‘å¤´ç»“ç‚¹ 
+	//Ö÷¶¯¿ØÖÆÁ´±í³¤¶È£¬Ëæ»ú³õÊ¼»¯¾ßÌåÔªËØ
+	//¸÷ÖÖÇé¿ö£¬ÓĞÎŞÍ·½Úµã¡¢ÊÇ·ñÑ­»·£¨ÔİÊ±¿¼ÂÇÕâËÄÖÖÇë¿î,ÊÇ·ñË«ÏòÎŞÓ°Ïì£©
+	///ÏÈ¿¼ÂÇÎŞÍ·½Úµã¡¢ÎŞÑ­»·µÄÇé¿ö
+	head = (ListNode*)malloc(sizeof(ListNode));			//¶¯Ì¬ÄÚ´æ·ÖÅä 
+	ListNode *temp = head;								//´´½¨Ò»¸öÁÙÊ±Ö¸Õë£¬²¢ÇÒÖ¸ÏòÍ·½áµã 
 
 	int key;
-	printf("è¾“å…¥é“¾è¡¨èŠ‚ç‚¹å€¼ï¼Œ00ç»“æŸï¼š\n");
+	printf("ÊäÈëÁ´±í½ÚµãÖµ£¬00½áÊø£º\n");
 	if (!IfHead)
 	{
-		scanf("%d", &temp->val);						//ä»é”®ç›˜è¾“å…¥å¤´ç»“ç‚¹çš„å€¼ 
+		scanf("%d", &temp->val);						//´Ó¼üÅÌÊäÈëÍ·½áµãµÄÖµ 
 	}
 
-	scanf("%d", &key);									//ä»é”®ç›˜è¾“å…¥å¤´ç»“ç‚¹çš„å€¼
-	while (key != 00)									//åªè¦ä¸è¾“å…¥00å°±ä¼šä¸€ç›´åˆ›å»ºæ–°çš„ç»“ç‚¹ 
+	scanf("%d", &key);									//´Ó¼üÅÌÊäÈëÍ·½áµãµÄÖµ
+	while (key != 00)									//Ö»Òª²»ÊäÈë00¾Í»áÒ»Ö±´´½¨ĞÂµÄ½áµã 
 	{	
-		//æ§åˆ¶ä¸‹æ•´ä½“æµç¨‹ï¼Œåœ¨ç”³è¯·ä¸‹ä¸€ä¸ªèŠ‚ç‚¹ä¹‹å‰å…ˆåˆ¤æ–­ æ˜¯å¦æœ‰ä¸‹ä¸€ä¸ªå€¼
+		//¿ØÖÆÏÂÕûÌåÁ÷³Ì£¬ÔÚÉêÇëÏÂÒ»¸ö½ÚµãÖ®Ç°ÏÈÅĞ¶Ï ÊÇ·ñÓĞÏÂÒ»¸öÖµ
 		ListNode *a = (ListNode*)malloc(sizeof(ListNode));
 		temp->next = a;
 		temp = a;
@@ -89,6 +103,7 @@ ListNode* Solution::InitialList(bool IfHead,bool IFCycle)
 	if (IFCycle)
 	{
 		temp->next = head;
+		end = temp;
 	}
 	else
 	{
@@ -102,77 +117,177 @@ ListNode* Solution::InitialList(bool IfHead,bool IFCycle)
 
 void Solution::removeSublists(bool IfHead, bool IFCycle)
 {
-	//åŸºæœ¬ç®—æ³•ï¼šä»å¤´åˆ°å°¾éå†æ•´ä¸ªé“¾è¡¨ï¼Œåˆ¤æ–­åå¯¹ä¸‹ä¸€ä¸ªå…ƒç´ è¿›è¡Œåˆ å‡ï¼Œå†ä¸ä¸‹ä¸‹ä¸ªå…ƒç´ è¿›è¡Œåˆ¤æ–­ï¼Œä¾æ¬¡ç±»æ¨ï¼Œä¸€éå³å¯
-	ListNode *temp;
-	ListNode *temp1, *temp2;
+	//»ù±¾Ëã·¨£º´ÓÍ·µ½Î²±éÀúÕû¸öÁ´±í£¬ÅĞ¶Ïºó¶ÔÏÂÒ»¸öÔªËØ½øĞĞÉ¾¼õ£¬ÔÙÓëÏÂÏÂ¸öÔªËØ½øĞĞÅĞ¶Ï£¬ÒÀ´ÎÀàÍÆ£¬Ò»±é¼´¿É
+	ListNode *temp, *pretemp;
+	ListNode *temp1, *temp2 , *temp3;
+	ListNode *standard1, *standard2;
 
-	if (IfHead)
+	int a_Cycle;
+
+
+	while (1)
 	{
-		temp = head->next;
-	}
-	else
-	{
+		bool iffree = false;
 		temp = head;
-	}
-
-	int aCycle = 0;										//Cycleçš„æƒ…å†µä¸‹åˆ¤æ–­æ˜¯å¦è¿˜æœ‰åˆ å‡
-
-	while (temp != NULL) 
-	{				
-		temp1 = temp->next;
-		while (temp1 != NULL&&temp->val *temp1->val == 10)
+		pretemp = head;
+		int result, preresult = 0;
+		bool cycle = false;
+		if (IFCycle)
 		{
-			temp2 = temp1;
-			temp1 = temp1->next;
-			temp->next = temp1;
-			if (temp2 == head)
-			{
-				head = head->next;
-			}
-			free(temp2);
-			aCycle++;
-		}
-
-		temp = temp->next;
-
-		if (temp == head)
-		{
-			if (aCycle == 0)
-				break;
-
 			if (IfHead)
-				break;
-
-			aCycle = 0;
+			{
+				standard1 = standard2 = head;
+			}
+			else
+			{
+				standard1 = head;
+				standard2 = NULL;
+			}
+			cycle = true;
+		}
+		else
+		{
+			standard1 = standard2 = NULL;
 		}
 
+		a_Cycle = 0;
+
+		//Ôİ²»¿¼ÂÇÑ­»·
+		while (temp != standard1 || cycle)
+		{
+			temp1 = temp->next;	
+			result = temp->val;
+			preresult = 0;
+
+			cycle = false;
+
+			while (abs(result) <= 10)
+			{
+				if (temp1 == standard2)
+					break;
+
+				result *= temp1->val;
+
+				if(result == 10)
+					iffree = true;
+
+				//2 5 5
+
+				if (preresult == 10 && (result != 10||temp1->next == standard2))
+				{
+					if (temp1->next == standard2&&result == 10)
+					{
+						temp3 = standard2;							//¼ÇÂ¼É¾³ıºóµÄµÚÒ»¸ö½Úµã
+					}
+					else
+					{
+						temp3 = temp1;								//¼ÇÂ¼É¾³ıºóµÄµÚÒ»¸ö½Úµã
+					}
+
+					if (IfHead)										//¼ÇÂ¼Í·
+					{
+						if (temp == head->next)
+						{
+							head->next = temp3;
+						}
+						else
+						{
+							pretemp->next = temp3;
+						}
+					}
+					else
+					{
+						if (temp == head)
+						{
+							head = temp3;
+							if (IFCycle)
+							{
+								standard1 = head;
+								end->next = head;
+							}
+
+							cycle = true;
+						}
+						else
+						{
+
+							pretemp->next = temp3;
+						}
+					}
+
+					//É¾µô´Ó temp µ½µ±Ç° temp1 µÄËùÓĞ½Úµã
+					while (temp != temp3)
+					{
+						temp2 = temp;
+
+						if (cycle)
+						{
+							if (end == temp)
+							{
+								end = pretemp;
+							}
+
+						}
+						temp = temp->next;
+						free(temp2);
+
+						a_Cycle++;
+					}
+
+					break;
+				}
+
+				if (preresult != 10)
+				{
+					preresult = result;
+				}
+
+				temp1 = temp1->next;
+			}
+
+			if (!iffree)
+			{
+				pretemp = temp;
+				temp = temp->next;
+			}
+			iffree = false;
+
+		}
+
+		if (a_Cycle == 0)
+			break;
 	}
 
+
+	//µ±Ç°½ÚµãÓëÖ®ºóµÄËùÓĞ½ÚµãÒÀ´ÎÀÛ³Ë£¬Èç¹ûÂú×ã³Ë»ıÎª10£¬É¾³ıÀÛ³ÉµÄËùÓĞ½Úµã(Èç¹û¾ø¶ÔÖµ´óÓÚ10ÍË³öÑ­»·)£»·ñÔò½øÈëÏÂÒ»¸ö½ÚµãµÄÅĞ¶Ï
+	//ÎŞÍ·½ÚµãÊ± Head µÄ¹éÊôÎÊÌâ(µÚÒ»¸ö½ÚµãÉ¾¼õĞèÒªÌØÊâ¿¼ÂÇ£¬ÆäËü½Úµã²»ĞèÒª)
+	//Ä©Î²Ê±ĞèÒª½øĞĞÅĞ¶Ï£¬µ±ÊÇÄ©Î²Ê±Ö¸ÕëÖ¸Ïò NULL
+	//Í·½ÚµãĞèÒª¼ÇÂ¼Í·µÄÖ¸Õë£¬ÆäÓà½ÚµãĞèÒª¼ÇÂ¼ÉÏ¸ö½ÚµãµÄÖ¸Õë
+	//Ñ­»·ÖĞÓĞÍ·½ÚµãµÄÇé¿öÖ»ÊÇ°ÑÅĞ¶ÏÒÀ¾İÓÉNULL×ª»»ÎªHead¼´¿É
+	//Ñ­»·ÖĞÎŞÍ·½ÚµãµÄÇé¿ö£¬¾ÍÖ±½ÓÏàÁ¬ÁË£¬ÆäÓà²»ÓÃ¹Ü£¬½«µÚÒ»¸öNULL»»ÎªHead¼´¿É
 
 	PrintList(IfHead, IFCycle);
 }
 
-int main()
+void main()
 {
 	Solution test;
 	bool IfHead = false, IFCycle = false;
 	int key;
-	printf("é“¾è¡¨æ˜¯å¦æœ‰å¤´èŠ‚ç‚¹(0-æ— ï¼›1-æœ‰)ï¼š\n");
+	printf("Á´±íÊÇ·ñÓĞÍ·½Úµã(0-ÎŞ£»1-ÓĞ)£º\n");
 	scanf("%d", &key);
 	if (key != 0)
 	{
 		IfHead = true;
 	}
-	printf("æ˜¯å¦ä¸ºå¾ªç¯é“¾è¡¨(0-éï¼›1-æ˜¯)ï¼š\n");
+	printf("ÊÇ·ñÎªÑ­»·Á´±í(0-·Ç£»1-ÊÇ)£º\n");
 	scanf("%d", &key);
 	if (key != 0)
 	{
 		IFCycle = true;
 	}
-
-	test.InitialList(IfHead, IFCycle);							//æ˜¯å¦æœ‰å¤´èŠ‚ç‚¹ï¼Œæ˜¯å¦å¾ªç¯
+	
+	test.InitialList(IfHead, IFCycle);							//ÊÇ·ñÓĞÍ·½Úµã£¬ÊÇ·ñÑ­»·
 	test.removeSublists(IfHead, IFCycle);
-	//system("pause");
-
-	return 1;
+	system("pause");
 }
